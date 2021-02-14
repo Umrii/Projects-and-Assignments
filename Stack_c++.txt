@@ -1,0 +1,156 @@
+#include<iostream>
+using namespace std;
+struct Node {
+	Node* link = NULL;
+	int data;
+};
+Node* top = NULL;
+class Stack
+{
+public:
+	void push(int d)
+	{
+		Node* new_node = new Node;
+		if (!new_node)
+		{
+			cout << "Stack Underflow" << endl;
+		}
+		else
+			new_node->data = d;
+		new_node->link = top;
+		top = new_node;
+	}
+	bool is_Empty()
+	{
+		if (top == NULL)
+		{
+			return true;
+		}
+		else
+			return false;
+	}
+	void pop()
+	{
+		if (is_Empty() == true)
+		{
+			cout << "Stack Underflow" << endl;
+		}
+		else
+		{
+			Node* temp = NULL;
+			temp = top;
+			top = top->link;
+			free(temp);
+		}
+	}
+	void peek()
+	{
+		if (is_Empty() == true)
+		{
+			cout << "Stack Underflow" << endl;
+		}
+		else
+			cout << "Peek Value: " << top->data << endl;
+	}
+	void display()
+	{
+		Node* temp;
+		temp = top;
+		if (is_Empty() == true)
+		{
+			cout << "Stack Underflow" << endl;
+		}
+		
+		else
+		{
+			cout << "Stack: ";
+			while (temp != NULL)
+			{
+				cout << temp->data << " ";
+				temp = temp->link;
+			}
+		}
+		
+	}
+	void middle_Value(int* c)
+	{
+		Node* ptr;
+		ptr = top;
+		if (is_Empty() == true)
+		{
+			cout << "Stack Underflow" << endl;
+		}
+		else if (*c % 2 == 0)
+		{
+			cout << "No middle value" << endl;
+		}
+		else
+		{
+			for (int i = 0; i < *c / 2; i++)
+			{
+
+				Node* ptr = NULL;
+				ptr = top;
+				top = top->link;
+				free(ptr);
+				*c = *c - 1;
+			}
+
+			cout << "Middle Value: " << top->data;
+			cout << endl;
+		}
+	}
+};
+int main()
+{
+	Stack Obj;
+	int count = 0;
+	int opt = 0;
+	cout << "Stack Operations" << endl;
+	cout << "1)To push\t\tPress 1\n2)To pop \t\tPress 2\n3)To peek\t\tPress 3\n4)To display\t\tPress 4\n5)To view middle value\tPress 5\n6)To exit\t\tPress 6" << endl;
+	while (opt != 6)
+	{
+		cout <<endl<< "Enter Choice: ";
+		cin >> opt;
+		switch (opt)
+		{
+		case 1:
+		{
+			int x;
+			cout << "Enter element in the stack: ";
+			cin >> x;
+			Obj.push(x);
+			count++;
+			break;
+		}
+		case 2:
+		{
+			Obj.pop();
+			count--;
+			break;
+		}
+		case 3:
+		{
+			Obj.peek();
+			break;
+		}
+		case 4:
+		{
+			Obj.display();
+			break;
+		}
+		case 5:
+		{
+			Obj.middle_Value(&count);
+			break;
+		}
+		case 6:
+		{
+			break;
+		}
+		default:
+			cout << "Invalid Selection" << endl;
+			break;
+		}
+	}
+}

@@ -1,0 +1,158 @@
+#include<iostream>
+using namespace std;
+struct Node {
+public:
+	Node* next;
+	int data;
+};
+Node* front, * rear = NULL;//Front and Rear of a queue.
+class Queue
+{
+public:
+	bool is_Empty()//To check if the queue is empty
+	{
+		if (rear == NULL && front == NULL)
+		{
+
+			return true;
+		}
+		else
+			return false;
+	}
+	void en_Queue(int d)//Inserting new elements at the rear of the queue
+	{
+		Node* new_Node = new Node;
+		cout << "Enter the element in the queue: ";
+		cin >> d;
+		new_Node->data = d;
+
+		new_Node->next = NULL;
+		if (is_Empty() == true)
+		{
+			front = new_Node;
+			rear = new_Node;
+		}
+		else
+		{
+			rear->next = new_Node;
+			rear = new_Node;
+		}
+	}
+
+	void display()//to display the queue
+	{
+		if (front == 0 && rear == 0)
+		{
+			cout << "The queue is empty" << endl;
+		}
+		else
+		{
+			Node* ptr = NULL;
+			ptr = front;
+
+			while (ptr != NULL)
+			{
+				cout << ptr->data << " ";
+				ptr = ptr->next;
+			}
+		}
+	}
+	void de_Queue()//to delete elements from the front
+	{
+		if (is_Empty() == true)
+		{
+			cout << "The queue is empty" << endl;
+		}
+		else
+		{
+			Node* temp = NULL;
+			temp = front;
+			front = front->next;
+			free(temp);
+		}
+
+	}
+	void middle_value(int* c)//gives middle value of the queue by deleting the values in the way
+	{
+
+		if (*c % 2 == 0)
+		{
+			cout << "No Middle Value" << endl;
+		}
+		else
+		{
+			for (int i = 0; i < *c / 2; i++)
+			{
+				Node* temp = NULL;
+				temp = front;
+				front = front->next;
+				free(temp);
+			}
+			cout << "Middle Value:" << front->data;
+			*c = *c - 1;
+		}
+	}
+	void peek()//gives a peek at the front value of the queue
+	{
+		if (is_Empty() == true)
+		{
+			cout << "The queue is empty" << endl;
+		}
+		else
+		{
+			Node* temp;
+			temp = front;
+			cout << temp->data << " " << endl;
+		}
+	}
+};
+int main()
+{
+	Queue Obj;
+	int count = 0;
+	int opt = 0;
+	int x = 0;
+	cout << "Queue Operations" << endl;
+	cout << "1)To Enqueue\t\tPress 1\n2)To Dequeue\t\tPress 2\n3)To Peek\t\tPress 3\n4)To Display\t\tPress 4\n5)For middle value\tPress 5\n6)To Exit\t\tPress 6 " << endl;
+	while (opt != 6)
+	{
+		cin >> opt;
+
+		switch (opt)
+		{
+		case 1:
+		{
+			Obj.en_Queue(x);
+			count++;
+			break;
+		}
+		case 2:
+		{
+			Obj.de_Queue();
+			count--;
+			break;
+		}
+		case 3:
+		{
+			Obj.peek();
+			break;
+		}
+		case 4:
+		{
+			Obj.display();
+			break;
+		}
+		case 5:
+		{
+			Obj.middle_value(&count);
+			break;
+		}
+		case 6:
+		{
+			break;
+		}
+		default:
+			cout << "Invalid Option" << endl;
+		}
+	}
+}

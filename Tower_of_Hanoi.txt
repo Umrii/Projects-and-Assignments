@@ -1,0 +1,253 @@
+#include<iostream>
+using namespace std;
+void display(int &i);
+
+//Making 3 stacks one for each tower
+struct Node {
+	int data1;
+	int data2;
+	int data3;
+	Node* link1 = NULL;
+	Node* link2 = NULL;
+	Node* link3 = NULL;
+};
+Node* top1 = NULL;
+Node* top2 = NULL;
+Node* top3 = NULL;
+//For pushing elements in 1st Tower
+void push1(int d)
+{
+	Node* new_node1 = new Node;
+
+	if (!new_node1)
+	{
+		cout << "The 1st stack is empty" << endl;
+	}
+	else
+	{
+		new_node1->data1 = d;
+		new_node1->link1 = top1;
+		top1 = new_node1;
+	}
+}
+//For pushing elements in 2nd Tower
+void push2(int d)
+{
+	Node* new_node2 = new Node;
+
+	if (!new_node2)
+	{
+		cout << "The 2nd stack is empty" << endl;
+	}
+	else
+	{
+		new_node2->data2 = d;
+		new_node2->link2 = top2;
+		top2 = new_node2;
+	}
+}
+//For Pushing elements in 3rd Tower
+void push3(int d)
+{
+	Node* new_node3 = new Node;
+
+	if (!new_node3)
+	{
+		cout << "The 3rd stack is empty" << endl;
+	}
+	else
+	{
+		new_node3->data3 = d;
+		new_node3->link3 = top3;
+		top3 = new_node3;
+	}
+}
+//Display 1st Tower
+void display1()
+{
+	Node* ptr = NULL;
+	ptr = top1;
+	while (ptr != NULL)
+	{
+		cout << ptr->data1 << " ";
+		ptr = ptr->link1;
+	}
+}
+//Display 2nd Tower
+void display2()
+{
+	Node* ptr2 = NULL;
+	ptr2 = top2;
+	while (ptr2 != NULL)
+	{
+		cout << ptr2->data2 << " ";
+		ptr2 = ptr2->link2;
+	}
+}
+//Display 3rd tower
+void display3()
+{
+	Node* ptr3 = NULL;
+	ptr3 = top3;
+	while (ptr3 != NULL)
+	{
+		cout << ptr3->data3 << " ";
+		ptr3 = ptr3->link3;
+	}
+}
+void pop1()//to pop from 1st stack
+{
+	Node* ptr;
+	ptr = top1;
+	top1 = top1->link1;
+	free(ptr);
+}
+void pop2()//to pop from 2nd stack
+{
+	Node* ptr;
+	ptr = top2;
+	top2 = top2->link2;
+	free(ptr);
+}
+void pop3()//to pop from 3rd stack
+{
+	Node* ptr;
+	ptr = top3;
+	top3 = top3->link1;
+	free(ptr);
+}
+void Shifting(int x)//Shifting functions that does minimum 7 shifts for 3 discs
+{
+	int i = 0;
+	int num1;
+
+	Node* temp1;
+	temp1 = top1;
+
+	Node* temp2;
+	temp2 = top2;
+
+	Node* temp3;
+	temp3 = top3;
+//1st Shifting
+	for (int n = 0; n < x; n++)
+	{
+		if (n == 0)
+		{
+			num1 = temp1->data1;
+			push3(num1);
+			pop1();
+			i++;
+			display(i);
+			
+		}
+		//2nd Shifting
+		else if (n == 1)
+		{
+			temp1 = top1;
+			num1 = temp1->data1;
+			push2(num1);
+			pop1();
+			i++;
+			display(i);
+	 	}
+		//3rd Shifting
+		else if (n == 2)
+		{
+			temp3 = top3;
+			num1 = temp3->data3;
+			push2(num1);
+			pop3();
+			i++;
+			display(i);
+		}
+		//4th Shifting
+		else if (n == 3)
+		{
+			temp1 = top1;
+			num1 = temp1->data1;
+			push3(num1);
+			pop1();
+			i++;
+			display(i);
+		}
+		//5th shifting
+		else if (n == 4)
+		{
+			temp2 = top2;
+			num1 = temp2->data2;
+			push1(num1);
+			pop2();
+			i++;
+			display(i);
+		}
+		//6th shifting
+		else if (n == 5)
+		{
+		    temp2 = top2;
+			num1 = temp2->data2;
+			push3(num1);
+			pop2();
+			i++;
+			display(i);
+		}
+		//7th shifting
+		else if (n == 6)
+		{
+	
+		    temp1 = top1;
+			num1 = temp1->data1;
+			push3(num1);
+			pop1();
+			cout << endl;
+			i++;
+			display(i);
+		}
+	}
+}
+void display(int &i)//to display poles after each shifting
+{
+	
+		cout << endl<<endl;
+		cout <<"Shifting No#"<< i << endl;
+		cout << endl;
+		cout << "1st Pole: ";
+		display1();
+		cout << endl;
+		cout << "2nd Pole: ";
+		display2();
+		cout << endl;
+		cout << "3rd pole: ";
+		display3();
+		cout << endl;
+}
+int main()
+{
+	int num1=0, num2=0, num3=0;
+	cout << "This is Hanoi Game for only 3 Discs" << endl;
+    cout << "As the rules say please enter the largest number 1st then smaller 2nd and then smallest 3rd " << endl;
+	cout << endl;
+
+	do              
+	{
+		cout << "Enter Num1: ";
+		cin >> num1;
+		cout << endl;
+		cout << "Enter Num2: ";
+		cin >> num2;
+		cout << endl;
+		cout << "Enter Num3: ";
+		cin >> num3;
+		cout << endl;
+	} while (num1 < num2 || num2<num3);//To input the numbers in correct manner
+
+	push1(num1);
+	push1(num2);
+	push1(num3);
+	int i = 0;
+
+	display(i);//Displaying poles before any shifting
+
+    Shifting(7);//As Hanoi Tower of 3 discs has minimum 7 moves,so 7 has been passed to perform iterative swapping.
+}
+
